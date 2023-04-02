@@ -66,4 +66,50 @@ $ npm run migration:run
 
 # Revert migrations
 $ npm run migration:revert
+## Posibles cambios
+```
+$ car.service.ts
 
+async createCar(createCarDto: CreateCarDto): Promise<Car> {
+    const { model, make, color, personId } = createCarDto;
+    const car = new Car();
+    const person = await this.personRepository.findOneBy({
+      id: personId,
+    });
+
+    if (!person) {
+      throw new HttpException('Person not found', HttpStatus.NOT_FOUND);
+    }
+
+    car.person = person;
+    car.color = color;
+    car.make = make;
+    car.model = model;
+    return this.carRepository.save(car);
+  }
+
+```
+  ```
+  $ create-car.dto.ts
+  
+  import { IsString, IsNotEmpty, IsNumber } from 'class-validator';
+import { Person } from 'src/person/entity/person.entity';
+export class CreateCarDto {
+  @IsNotEmpty()
+  @IsString()
+  model: string;
+
+  @IsNotEmpty()
+  @IsString()
+  make: string;
+
+  @IsNotEmpty()
+  @IsString()
+  color: string;
+
+  @IsNotEmpty()
+  @IsNumber()
+  personId: number;
+}
+
+  ```
