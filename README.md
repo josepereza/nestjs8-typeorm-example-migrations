@@ -71,7 +71,7 @@ $ npm run migration:revert
 ```
 ## Posibles cambios
 $ car.service.ts
-
+```
 async createCar(createCarDto: CreateCarDto): Promise<Car> {
     const { model, make, color, personId } = createCarDto;
     const car = new Car();
@@ -91,6 +91,7 @@ async createCar(createCarDto: CreateCarDto): Promise<Car> {
   }
 
 ```
+  --------------------------------------------
   ```
   $ create-car.dto.ts
   
